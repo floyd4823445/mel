@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaBinary | Trading Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="trading-page">
+    <div class="page-shell">
+      <header class="trading-header">
+        <div>
+          <p class="eyebrow">Live trading desk</p>
+          <h1>NovaBinary Trading Room</h1>
+        </div>
+        <div class="header-actions">
+          <div class="balance-pill">
+            <span>Balance</span>
+            <strong id="balanceValue">$0</strong>
+          </div>
+          <button id="logoutBtn" class="btn btn-secondary">Log out</button>
+        </div>
+      </header>
+
+      <main class="trading-layout">
+        <section class="trading-card chart-panel">
+          <div class="panel-top">
+            <div>
+              <p class="small-label">Binary trading desk</p>
+              <h2>EUR/USD • GBP/USD</h2>
+            </div>
+            <div class="signal-group">
+              <span class="signal-pill positive" id="priceBadge">Live</span>
+              <span class="signal-pill">24/7 execution</span>
+              <span class="signal-pill">High volatility</span>
+            </div>
+          </div>
+
+          <div class="chart-toolbar">
+            <div class="asset-tabs">
+              <button class="asset-btn active" data-asset="EUR/USD">EUR/USD</button>
+              <button class="asset-btn" data-asset="GBP/USD">GBP/USD</button>
+              <button class="asset-btn" data-asset="USD/JPY">USD/JPY</button>
+            </div>
+            <div class="chart-info">
+              <span>Spread: 0.8 pips</span>
+              <span>Leverage: 1:500</span>
+            </div>
+          </div>
+
+          <div class="price-strip">
+            <div>
+              <p class="small-label">Current price</p>
+              <strong id="currentPriceValue">1.0898</strong>
+            </div>
+            <div>
+              <p class="small-label">Market mood</p>
+              <strong class="text-green">Bullish momentum</strong>
+            </div>
+          </div>
+
+          <svg id="liveChart" viewBox="0 0 760 320" role="img" aria-label="Forex trading chart">
+            <line x1="24" y1="280" x2="740" y2="280" class="graph-grid" />
+            <line x1="24" y1="220" x2="740" y2="220" class="graph-grid" />
+            <line x1="24" y1="160" x2="740" y2="160" class="graph-grid" />
+            <line x1="24" y1="100" x2="740" y2="100" class="graph-grid" />
+            <g id="candles"></g>
+          </svg>
+        </section>
+
+        <aside class="side-stack">
+          <section class="trading-card fund-panel">
+            <h3>Fund your account</h3>
+            <div class="funding-options">
+              <button class="funding-btn" data-method="bank">Bank transfer</button>
+              <button class="funding-btn" data-method="mpesa">Mpesa</button>
+              <button class="funding-btn" data-method="demo">Demo balance</button>
+            </div>
+            <button id="withdrawBtn" class="btn btn-secondary withdrawal-btn" type="button">Withdraw funds</button>
+            <p id="fundingMessage" class="funding-message">Choose a funding method to continue.</p>
+          </section>
+
+          <section class="trading-card trade-panel">
+            <div class="trade-head">
+              <div>
+                <p class="small-label">Binary trade</p>
+                <h3 id="assetName">EUR/USD</h3>
+              </div>
+              <span class="signal-pill positive" id="modeBadge">Demo mode</span>
+            </div>
+
+            <div class="mode-switch" role="tablist" aria-label="Trading mode">
+              <button class="mode-btn active" data-mode="demo">Demo</button>
+              <button class="mode-btn" data-mode="live">Live</button>
+            </div>
+
+            <label class="field-label" for="stakeInput">Stake amount</label>
+            <input id="stakeInput" class="trade-input" type="number" min="10" step="10" value="100" />
+
+            <div class="trade-options">
+              <button class="option-btn up" data-action="up">Call / Up</button>
+              <button class="option-btn down" data-action="down">Put / Down</button>
+            </div>
+            <div class="trade-info-box">
+              <span>Profit potential</span>
+              <strong>Up to 85%</strong>
+            </div>
+            <div class="trade-summary">
+              <div>
+                <span>Mode</span>
+                <strong id="modeDisplay">Demo</strong>
+              </div>
+              <div>
+                <span>Risk</span>
+                <strong id="stakeDisplay">$100</strong>
+              </div>
+            </div>
+            <p id="tradeMessage" class="trade-message">You are ready to place a real stake.</p>
+          </section>
+
+          <section class="trading-card history-panel">
+            <h3>Recent trades</h3>
+            <ul id="tradeHistoryList" class="history-list"></ul>
+          </section>
+
+          <section class="trading-card account-panel">
+            <h3>Account status</h3>
+            <div class="account-row">
+              <span>Welcome</span>
+              <strong id="welcomeName">Trader</strong>
+            </div>
+            <div class="account-row">
+              <span>Risk</span>
+              <strong>Low</strong>
+            </div>
+            <div class="account-row">
+              <span>Open positions</span>
+              <strong>0</strong>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div id="fundingModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-head">
+          <div>
+            <p class="small-label">Secure payment</p>
+            <h3 id="modalTitle">Deposit funds</h3>
+          </div>
+          <button id="closeModal" class="icon-btn" aria-label="Close">×</button>
+        </div>
+        <p id="modalDescription" class="modal-copy">Enter your details and send the request.</p>
+        <form id="fundingForm" class="funding-form">
+          <label for="fundingAmount">Amount</label>
+          <input id="fundingAmount" type="number" min="100" step="100" value="1000" required />
+          <label id="detailLabel" for="fundingDetail">Account number</label>
+          <input id="fundingDetail" type="text" placeholder="Enter account number" required />
+          <button type="submit" class="btn btn-primary">Send request</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="trading.js"></script>
+  </body>
+</html>
